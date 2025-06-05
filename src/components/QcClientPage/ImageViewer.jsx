@@ -29,7 +29,7 @@ export default function ImageViewer({
   setSelectedImage,
 }) {
   const pathname = usePathname();
-  const baseUrl = "https://v0-react-form-builder-cyan.vercel.app";
+  const baseUrl = "https://lynt-x.vercel.app";
   const pdfUrl = selectedImage ? baseUrl + selectedImage.image : null;
   const [extractedText, setExtractedText] = useState("");
   const [loadingImage, setLoadingImage] = useState(false);
