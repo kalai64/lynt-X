@@ -8,7 +8,7 @@ import Tesseract from "tesseract.js";
 pdfjsLib.GlobalWorkerOptions.workerSrc = "/pdf.worker.js";
 
 export default function ImageViewer({ image }) {
-  const baseUrl = "https://lynt-x.vercel.app";
+  const baseUrl = "https://lynt-x-kalaiyarasans-projects.vercel.app";
   const pdfUrl = image ? baseUrl + image : null;
   const [extractedText, setExtractedText] = useState("");
   const [loadingImage, setLoadingImage] = useState(false);

@@ -29,7 +29,7 @@ export default function ImageViewer({
   setSelectedImage,
 }) {
   const pathname = usePathname();
-  const baseUrl = "https://lynt-x.vercel.app";
+  const baseUrl = "https://lynt-x-kalaiyarasans-projects.vercel.app";
   const pdfUrl = selectedImage ? baseUrl + selectedImage.image : null;
   const [extractedText, setExtractedText] = useState("");
   const [loadingImage, setLoadingImage] = useState(false);
