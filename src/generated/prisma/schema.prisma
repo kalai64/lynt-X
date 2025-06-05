@@ -1,0 +1,232 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id             String        @id @default(uuid())
+  email          String        @unique
+  full_data      Json
+  organizationId Int?
+  role           String
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+  organization   Organization? @relation(fields: [organizationId], references: [id])
+
+  fullname       String?
+  username       String?
+  designation    String?
+  tl             String?
+  am             String?
+  manager        String?
+  shift          String?
+  datapopulation String?
+
+  userLogs UserLog[]
+
+  @@map("User")
+}
+
+model ftp {
+  id             Int          @id @default(autoincrement())
+  host           String
+  port           Int
+  username       String
+  password       String
+  ftppath        String
+  organizationId Int
+  ocr            Boolean      @default(false)
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @default(now())
+  organization   Organization @relation(fields: [organizationId], references: [id])
+}
+
+model Organization {
+  id        Int      @id @default(autoincrement())
+  name      String
+  createdAt DateTime @default(now())
+  Org_ID    String   @map("Org_ID")
+  users     User[]
+  ftps      ftp[]
+
+  @@map("Organization")
+}
+
+model Batch {
+  id               Int      @id @default(autoincrement())
+  batchname        String
+  status           Int
+  folderpath       String
+  uniqueid         Int
+  isactive         Boolean
+  createdat        DateTime @default(now()) @map("createdat")
+  updatedat        DateTime @default(now()) @map("updatedat")
+  priority         Int?
+  county           String?
+  engineToPriority Int?     @map("engine_to_priority")
+  organizationId   Int
+
+  @@map("batches")
+}
+
+model Imagecollections {
+  id                            Int       @id @default(autoincrement())
+  filename                      String
+  image                         String
+  status                        String
+  created_date                  DateTime  @default(now())
+  batchname                     String
+  stage                         String
+  uniqueid                      Int
+  file_type                     String
+  ocr_full_text                 String
+  processed_date                DateTime
+  isactive                      Boolean   @default(true)
+  createdat                     DateTime  @default(now())
+  updatedat                     DateTime  @default(now())
+  header_locked                 Boolean   @default(false)
+  party_locked                  Boolean   @default(false)
+  legal_locked                  Boolean   @default(false)
+  headerstatus                  String
+  legalstatus                   String
+  partystatus                   String
+  headerlocked_timing           DateTime?
+  legallocked_timing            DateTime?
+  partylocked_timing            DateTime?
+  indexing_assigned             Int?
+  header_assigned               Int?
+  propertyindex_assigned        Int?
+  indexing_locked               Boolean?  @default(false)
+  propertyindex_locked          Boolean?  @default(false)
+  propertyindexstatus           String
+  indexinglocked_timing         DateTime?
+  propertyindexlocked_timing    DateTime?
+  indexing_completed            DateTime?
+  propertyindex_completed       DateTime?
+  header_completed              DateTime?
+  party_completed               DateTime?
+  legal_completed               DateTime?
+  qc_locked                     Boolean?  @default(false)
+  qc_assigned                   Int?
+  qc_completed                  DateTime?
+  indexlocked_timing            DateTime?
+  pilocked_timing               DateTime?
+  duplicatestatus               String
+  pi_pending_queue              String
+  legal_pending_queue           String
+  qcstatus                      String
+  indexingcompleted_timing      DateTime?
+  propertyindexcompleted_timing DateTime?
+  headercompleted_timing        DateTime?
+  partycompleted_timing         DateTime?
+  legalcompleted_timing         DateTime?
+  qccompleted_timing            DateTime?
+  organizationId                Int
+  assigned                      String?
+  completed                     String?
+  imagestatus                   Boolean?
+  userid                        String?
+
+  @@map("imagecollections")
+}
+
+model Template {
+  id             Int             @id @default(autoincrement())
+  name           String
+  isActive       Boolean         @default(true) @map("isactive")
+  isDelete       Boolean         @default(false) @map("isdelete")
+  organizationId Int?            @map("organizationid")
+  createdAt      DateTime        @default(now()) @map("createdat")
+  updatedAt      DateTime        @updatedAt @map("updatedat")
+  orderno        Int?
+  client         Boolean         @default(true)
+  templateFields TemplateField[]
+
+  @@map("template")
+}
+
+model TemplateField {
+  id         Int      @id @default(autoincrement())
+  templateId Int      @map("templateid")
+  type       String
+  icon       String
+  label      String
+  properties String
+  parentId   String?  @map("parentid")
+  isActive   Boolean  @default(true) @map("isactive")
+  createdAt  DateTime @default(now()) @map("createdat")
+  updatedAt  DateTime @updatedAt @map("updatedat")
+
+  template Template        @relation(fields: [templateId], references: [id], onDelete: Cascade)
+  children TemplateChild[]
+
+  @@map("template_fields")
+}
+
+model TemplateChild {
+  id               Int           @id @default(autoincrement())
+  templateFieldsId Int           @map("templatefieldsid")
+  type             String
+  icon             String
+  label            String
+  properties       String
+  parentId         String?       @map("parentid")
+  isActive         Boolean       @default(true) @map("isactive")
+  createdAt        DateTime      @default(now()) @map("createdat")
+  updatedAt        DateTime      @updatedAt @map("updatedat")
+  templateField    TemplateField @relation(fields: [templateFieldsId], references: [id], onDelete: Cascade)
+
+  @@map("template_child")
+}
+
+model FormSubmission {
+  id             Int      @id @default(autoincrement())
+  image_name     String
+  batch_name     String
+  field_name     String
+  field_value    String
+  level          String   @db.VarChar(50)
+  user_id        String   @db.VarChar(50)
+  created_date   DateTime @default(now())
+  isActive       Boolean  @default(true) @map("isactive")
+  createdAt      DateTime @default(now()) @map("createdat")
+  updatedAt      DateTime @default(now()) @map("updatedat")
+  organizationId Int      @map("organizationid")
+
+  @@map("form_submission")
+}
+
+model QcFormSubmission {
+  id             Int      @id @default(autoincrement())
+  batch_name     String?
+  image_name     String?
+  field_name     String?
+  field_value    String?
+  level          String?
+  userid         String?
+  created_date   DateTime @default(now())
+  organizationid Int?
+  isactive       Boolean  @default(true)
+  createdat      DateTime @default(now())
+  updatedat      DateTime @updatedAt
+
+  @@map("qc_form_submission")
+}
+
+model UserLog {
+  id             Int      @id @default(autoincrement())
+  userid         String
+  organizationid Int
+  role           String   @db.VarChar(100)
+  actiondate     DateTime @default(now())
+  action         String
+
+  user User @relation(fields: [userid], references: [id])
+
+  @@map("userlog")
+}
