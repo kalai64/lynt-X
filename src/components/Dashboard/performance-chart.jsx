@@ -18,8 +18,8 @@ const CustomTooltip = ({ active, payload }) => {
   if (active && payload && payload.length) {
     return (
       <div className="bg-white text-gray-800 text-xs px-3 py-2 rounded-lg shadow-lg border border-gray-200">
-        <p><span className="font-semibold">Finished Batches:</span> {payload.find(p => p.name === "Finished Batches")?.value || 0}</p>
-        <p><span className="font-semibold">Pending Batches:</span> {payload.find(p => p.name === "Pending Batches")?.value || 0}</p>
+        <p><span className="font-semibold">Finished Images:</span> {payload.find(p => p.name === "Finished Images")?.value || 0}</p>
+        <p><span className="font-semibold">Pending Images:</span> {payload.find(p => p.name === "Pending Images")?.value || 0}</p>
       </div>
     );
   }
@@ -78,7 +78,7 @@ export default function BatchPerformanceChart() {
             <Legend verticalAlign="bottom" height={36} />
             <Bar
               dataKey="finished"
-              name="Finished Batches"
+              name="Finished Images"
               radius={[10, 10, 10, 10]}
               fill="#8b5cf6"
               animationDuration={500}
@@ -89,7 +89,7 @@ export default function BatchPerformanceChart() {
             </Bar>
             <Bar
               dataKey="pending"
-              name="Pending Batches"
+              name="Pending Images"
               radius={[10, 10, 10, 10]}
               fill="#f59e0b"
               animationDuration={500}

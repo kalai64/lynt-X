@@ -334,7 +334,7 @@ export default function WorkMonitor() {
             onClick={handleReassign}
             disabled={isReassign}
           >
-            {isReassign ? "Reassigning..." : "Reassign To"}
+            {isReassign ? "Reassigning..." : "Reassign"}
           </Button>
         </div>)}
       </div>

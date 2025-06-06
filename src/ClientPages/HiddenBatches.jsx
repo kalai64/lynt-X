@@ -105,12 +105,7 @@ export default function HiddenBatches() {
             value={fromDate}
             onChange={(e) => setFromDate(e.target.value)}
           />
-          <input
-            type="date"
-            className="border rounded-md px-3 py-2 text-sm w-35"
-            value={toDate}
-            onChange={(e) => setToDate(e.target.value)}
-          />
+          
           <button
             className="flex items-center gap-2 cursor-pointer px-4 py-2 text-sm bg-gray-100 text-gray-800 rounded-md hover:bg-gray-200 whitespace-nowrap"
             onClick={() => {
@@ -122,14 +117,7 @@ export default function HiddenBatches() {
             Clear
           </button>
         </div>
-        <div className="flex gap-2">
-          <button className="flex items-center gap-2 cursor-pointer px-4 py-2 text-sm bg-gray-100 text-gray-800 rounded-md hover:bg-gray-200 whitespace-nowrap">
-            <Upload className="h-4 w-4" /> Export
-          </button>
-          <button className="flex items-center gap-2 cursor-pointer px-4 py-2 text-sm bg-green-100 text-green-800 rounded-md hover:bg-green-200 whitespace-nowrap">
-            <Download className="h-4 w-4" /> Import
-          </button>
-        </div>
+        
       </div>
 
       {isLoading ? (
